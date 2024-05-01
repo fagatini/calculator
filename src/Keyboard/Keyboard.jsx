@@ -3,11 +3,11 @@ import { Button } from "react-native";
 
 const Keyboard = ({ onKeyPress }) => {
   const buttons = [
-    ["C", "()", "^", "/"],
+    ["C", "()", "|", "/"],
     ["7", "8", "9", "*"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
-    ["+/-", "0", "->", "="],
+    ["+/-", "0", "→", "="],
   ];
 
   function getColorForButton(key) {
@@ -19,10 +19,10 @@ const Keyboard = ({ onKeyPress }) => {
       case "-":
       case "*":
       case "/":
-      case "^":
+      case "|":
       case "()":
       case "+/-":
-      case "->":
+      case "→":
         return "#0081a7";
       default:
         return "#00afb9";
@@ -37,10 +37,21 @@ const Keyboard = ({ onKeyPress }) => {
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {buttons.map((row, index) => {
         return (
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }} key={index}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+            key={index}
+          >
             {row.map((button) => (
               <div style={{ width: "20%" }} key={button}>
-                <Button title={button} color={getColorForButton(button)} onPress={() => handlePress(button)}></Button>
+                <Button
+                  title={button}
+                  color={getColorForButton(button)}
+                  onPress={() => handlePress(button)}
+                ></Button>
               </div>
             ))}
           </div>

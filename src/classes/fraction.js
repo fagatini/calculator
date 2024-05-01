@@ -1,17 +1,22 @@
-class Fraction {
-  constructor(numerator, denominator, sign = -1) {
-    this.numerator = numerator;
-    this.denominator = denominator;
+export class Fraction {
+  constructor(fraction, sign = -1) {
+    this.integer = fraction.integer;
+    this.numerator = fraction.numerator;
+    this.denominator = fraction.denominator;
   }
 
   sum(fraction) {
-    const newNumerator = this.numerator * fraction.denominator + this.denominator * fraction.numerator;
+    const newNumerator =
+      this.numerator * fraction.denominator +
+      this.denominator * fraction.numerator;
     const newDenominator = fraction.denominator * this.denominator;
     return new Fraction(newNumerator, newDenominator);
   }
 
   sub(fraction) {
-    const newNumerator = this.numerator * fraction.denominator - this.denominator * fraction.numerator;
+    const newNumerator =
+      this.numerator * fraction.denominator -
+      this.denominator * fraction.numerator;
     const newDenominator = fraction.denominator * this.denominator;
     return new Fraction(newNumerator, newDenominator);
   }
@@ -35,6 +40,6 @@ class Fraction {
   }
 
   toString() {
-    return this.numerator + "->" + this.denominator;
+    return this.numerator + "→" + this.denominator;
   }
 }

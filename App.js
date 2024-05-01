@@ -1,6 +1,27 @@
 import { useState } from "react";
 import Keyboard from "./src/Keyboard/Keyboard";
 import { Input } from "./src/Input/Input";
+import { stringToData } from "./src/utils/stringToData";
+import { regexps } from "./src/shared/regexps";
+
+function handleEqual(string) {
+  const [first, second] = stringToData(string);
+  const operation = string.match(regexps.operations);
+  switch (operation) {
+    case "+":
+      first.sum(second);
+      return;
+    case "-":
+      first.sub(second);
+      return;
+    case "*":
+      first.mult(second);
+      return;
+    case "/":
+      first.div(second);
+      return;
+  }
+}
 
 export default function App() {
   const [str, setStr] = useState("");
@@ -9,12 +30,12 @@ export default function App() {
     switch (key) {
       case "C":
         return setStr("");
+      case "=":
+        return handleEqual(str);
       default:
         setStr(str + key);
     }
   }
-
-  function handleEqual() {}
 
   return (
     <main
