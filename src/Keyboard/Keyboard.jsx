@@ -1,18 +1,19 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { Button } from "react-native";
 
 const Keyboard = ({ onKeyPress }) => {
   const buttons = [
-    ["C", "()", "|", "/"],
+    ["C", "c1", "→", "|"],
     ["7", "8", "9", "*"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
-    ["+/-", "0", "→", "="],
-  ];
+    ["=", "0", ":)", "/"],
+  ]; // TODO не запариватся с выражениями и сделать переключение между неправильными дробями и дробями с целой частью
 
   function getColorForButton(key) {
     switch (key) {
       case "C":
+      case "c1":
         return "#f07167";
       case "=":
       case "+":
@@ -21,7 +22,7 @@ const Keyboard = ({ onKeyPress }) => {
       case "/":
       case "|":
       case "()":
-      case "+/-":
+      case ":)":
       case "→":
         return "#0081a7";
       default:
@@ -47,11 +48,7 @@ const Keyboard = ({ onKeyPress }) => {
           >
             {row.map((button) => (
               <div style={{ width: "20%" }} key={button}>
-                <Button
-                  title={button}
-                  color={getColorForButton(button)}
-                  onPress={() => handlePress(button)}
-                ></Button>
+                <Button title={button} color={getColorForButton(button)} onPress={() => handlePress(button)}></Button>
               </div>
             ))}
           </div>

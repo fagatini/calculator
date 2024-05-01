@@ -4,36 +4,43 @@ import { Input } from "./src/Input/Input";
 import { stringToData } from "./src/utils/stringToData";
 import { regexps } from "./src/shared/regexps";
 
-function handleEqual(string) {
-  const [first, second] = stringToData(string);
-  const operation = string.match(regexps.operations);
-  switch (operation) {
-    case "+":
-      first.sum(second);
-      return;
-    case "-":
-      first.sub(second);
-      return;
-    case "*":
-      first.mult(second);
-      return;
-    case "/":
-      first.div(second);
-      return;
-  }
-}
-
 export default function App() {
   const [str, setStr] = useState("");
 
   function keyManager(key) {
     switch (key) {
       case "C":
-        return setStr("");
+        setStr("");
+        break;
+      case "c1":
+        setStr(str.slice(0, -1));
+        break;
       case "=":
-        return handleEqual(str);
+        handleEqual(str);
+        break;
+      case ":)":
+        break;
       default:
         setStr(str + key);
+    }
+  }
+
+  function handleEqual(string) {
+    const [first, second] = stringToData(string);
+    const operation = string.match(regexps.operations)[0];
+    switch (operation) {
+      case "+":
+        setStr(first.sum(second).toString());
+        break;
+      case "-":
+        setStr(first.sub(second).toString());
+        break;
+      case "*":
+        setStr(first.mult(second).toString());
+        break;
+      case "/":
+        setStr(first.div(second).toString());
+        break;
     }
   }
 
