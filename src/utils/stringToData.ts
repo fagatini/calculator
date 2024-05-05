@@ -11,7 +11,9 @@ export const stringToData = (input: string) => {
 };
 
 const stringToFraction = (value: string) => {
-  const result: any = {};
+  const result: any = {sign: value.includes("±") ? -1 : 1};
+  value = value.replaceAll("±", "");
+
   if (!value.includes("→") && !value.includes("|")) {
     result.integer = value;
   } else {

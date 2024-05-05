@@ -7,8 +7,8 @@ const Keyboard = ({ onKeyPress }) => {
     ["7", "8", "9", "*"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
-    ["=", "0", ":)", "/"],
-  ]; // TODO не запариватся с выражениями и сделать переключение между неправильными дробями и дробями с целой частью
+    ["=", "0", "±", "/"],
+  ];
 
   function getColorForButton(key) {
     switch (key) {
@@ -22,7 +22,7 @@ const Keyboard = ({ onKeyPress }) => {
       case "/":
       case "|":
       case "()":
-      case ":)":
+      case "±":
       case "→":
         return "#0081a7";
       default:

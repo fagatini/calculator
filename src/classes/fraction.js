@@ -7,6 +7,10 @@ export class Fraction {
       this.numerator = fraction.integer;
       this.denominator = 1;
     }
+
+    if (fraction.sign) {
+      this.numerator = fraction.sign * this.numerator;
+    }
   }
 
   sum(fraction) {
@@ -28,13 +32,16 @@ export class Fraction {
   }
 
   div(fraction) {
-    const newNumerator = this.numerator * fraction.denominator;
-    const newDenominator = this.denominator * fraction.numerator;
-    return new Fraction({ numerator: newNumerator, denominator: newDenominator });
+    const newNumerator = Math.abs(this.numerator * fraction.denominator);
+    const newDenominator = Math.abs(this.denominator * fraction.numerator);
+    return new Fraction({
+      numerator: newNumerator * Math.sign(this.numerator) * Math.sign(fraction.numerator),
+      denominator: newDenominator,
+    });
   }
 
   nod() {
-    let a = this.numerator,
+    let a = Math.abs(this.numerator),
       b = this.denominator;
     while (b !== 0) {
       const temp = b;
@@ -45,12 +52,23 @@ export class Fraction {
     this.denominator = this.denominator / a;
   }
 
-  toString() {
+  toString(vievType) {
     this.nod();
     if (this.denominator === 1) {
-      return this.numerator.toString();
+      return this.numerator.toString().replace("-", "±");
     } else {
-      return this.numerator + "|" + this.denominator;
+      if (vievType === "improper") {
+        return this.numerator.toString().replace("-", "±") + "|" + this.denominator;
+      } else {
+        const unSignedNumerator = Math.abs(this.numerator);
+        const sign = Math.sign(this.numerator) === -1 ? "±" : "";
+        const integer = Math.floor(unSignedNumerator / this.denominator);
+        const vievedInteger = integer !== 0 ? integer + "→" : "";
+        const numerator = unSignedNumerator - integer * this.denominator;
+        const vievedFraction = unSignedNumerator !== 0 ? numerator + "|" + this.denominator : "";
+        const result = sign + vievedInteger + vievedFraction;
+        return result;
+      }
     }
   }
 }

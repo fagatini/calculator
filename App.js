@@ -3,9 +3,11 @@ import Keyboard from "./src/Keyboard/Keyboard";
 import { Input } from "./src/Input/Input";
 import { stringToData } from "./src/utils/stringToData";
 import { regexps } from "./src/shared/regexps";
+import { Button } from "react-native";
 
 export default function App() {
   const [str, setStr] = useState("");
+  const [vievType, setVievType] = useState("improper");
 
   function keyManager(key) {
     switch (key) {
@@ -18,7 +20,8 @@ export default function App() {
       case "=":
         handleEqual(str);
         break;
-      case ":)":
+      case "±":
+        setStr(str.endsWith("±") ? str.slice(0, -1) : str + "±");
         break;
       default:
         setStr(str + key);
@@ -28,20 +31,25 @@ export default function App() {
   function handleEqual(string) {
     const [first, second] = stringToData(string);
     const operation = string.match(regexps.operations)[0];
+
     switch (operation) {
       case "+":
-        setStr(first.sum(second).toString());
+        setStr(first.sum(second).toString(vievType));
         break;
       case "-":
-        setStr(first.sub(second).toString());
+        setStr(first.sub(second).toString(vievType));
         break;
       case "*":
-        setStr(first.mult(second).toString());
+        setStr(first.mult(second).toString(vievType));
         break;
       case "/":
-        setStr(first.div(second).toString());
+        setStr(first.div(second).toString(vievType));
         break;
     }
+  }
+
+  function changeVievOfFraction() {
+    setVievType(vievType === "improper" ? "mixed" : "improper");
   }
 
   return (
@@ -56,7 +64,12 @@ export default function App() {
         gap: 40,
       }}
     >
-      <Input value={str} />
+      <div>
+        <Input value={str} vievType={vievType} />
+        <div style={{ width: "20%", position: "absolute", zIndex: 2, right: "6%", top: "25%" }}>
+          <Button title={vievType} onPress={() => changeVievOfFraction()} color={"gray"}></Button>
+        </div>
+      </div>
       <Keyboard onKeyPress={(key) => keyManager(key)} />
     </main>
   );

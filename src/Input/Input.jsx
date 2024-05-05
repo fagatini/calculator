@@ -6,7 +6,6 @@ export const Input = ({ value: fractionText }) => {
   function parseValue(text) {
     const [first, second] = text.split(regexps.operations, 2);
     const operation = text[regexps.operations.exec(text)?.index];
-
     return (
       <>
         {first?.length ? parseFraction(first) : null}
@@ -17,7 +16,8 @@ export const Input = ({ value: fractionText }) => {
   }
 
   function parseFraction(fractionText) {
-    const fraction = {};
+    const fraction = { sign: fractionText.startsWith("±") ? "±" : "" };
+    fractionText = fractionText.replaceAll("±", "");
 
     if (!fractionText.includes("→") && !fractionText.includes("|")) {
       fraction.integer = fractionText;
@@ -37,6 +37,7 @@ export const Input = ({ value: fractionText }) => {
 
     return (
       <>
+        {fraction.sign === "±" ? <p style={styles.negative}>—</p> : null}
         <div style={styles.integer}>
           <p style={styles.pStyle}>{fraction.integer}</p>
         </div>
@@ -90,5 +91,9 @@ const styles = StyleSheet.create({
   },
   operation: {
     marginRight: 5,
+  },
+  negative: {
+    marginLeft: 5,
+    marginRight: 2,
   },
 });
