@@ -1,1 +1,1 @@
-export const regexps = { operations: /[*+/-]/ };
+export const regexps = { operations: /[*+/-^]/ };

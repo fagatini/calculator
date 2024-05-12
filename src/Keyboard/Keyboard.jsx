@@ -3,7 +3,7 @@ import { Button } from "react-native";
 
 const Keyboard = ({ onKeyPress }) => {
   const buttons = [
-    ["C", "c1", "→", "|"],
+    ["C", "c1", "→", "÷"],
     ["7", "8", "9", "*"],
     ["4", "5", "6", "-"],
     ["1", "2", "3", "+"],
@@ -20,13 +20,13 @@ const Keyboard = ({ onKeyPress }) => {
       case "-":
       case "*":
       case "/":
-      case "|":
+      case "÷":
       case "()":
       case "±":
       case "→":
-        return "#0081a7";
+        return "#1a7431";
       default:
-        return "#00afb9";
+        return "#4ad66d";
     }
   }
 
