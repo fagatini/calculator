@@ -16,28 +16,39 @@ export class Fraction {
   sum(fraction) {
     const newNumerator = this.numerator * fraction.denominator + this.denominator * fraction.numerator;
     const newDenominator = fraction.denominator * this.denominator;
-    return new Fraction({ numerator: newNumerator, denominator: newDenominator });
+    this.numerator = newNumerator;
+    this.denominator = newDenominator;
+    return this.nod();
   }
 
   sub(fraction) {
     const newNumerator = this.numerator * fraction.denominator - this.denominator * fraction.numerator;
     const newDenominator = fraction.denominator * this.denominator;
-    return new Fraction({ numerator: newNumerator, denominator: newDenominator });
+    this.numerator = newNumerator;
+    this.denominator = newDenominator;
+    return this.nod();
   }
 
   mult(fraction) {
     const newNumerator = this.numerator * fraction.numerator;
     const newDenominator = fraction.denominator * this.denominator;
-    return new Fraction({ numerator: newNumerator, denominator: newDenominator });
+    this.numerator = newNumerator;
+    this.denominator = newDenominator;
+    return this.nod();
   }
 
   div(fraction) {
     const newNumerator = Math.abs(this.numerator * fraction.denominator);
     const newDenominator = Math.abs(this.denominator * fraction.numerator);
-    return new Fraction({
-      numerator: newNumerator * Math.sign(this.numerator) * Math.sign(fraction.numerator),
-      denominator: newDenominator,
-    });
+    this.numerator = newNumerator * Math.sign(this.numerator) * Math.sign(fraction.numerator);
+    this.denominator = newDenominator;
+    return this.nod();
+  }
+
+  pow(integer) {
+    const newNumerator = Math.abs(this.numerator) ** integer;
+    this.numerator = newNumerator * (-1) ** integer;
+    return this.nod();
   }
 
   nod() {
@@ -48,27 +59,14 @@ export class Fraction {
       b = a % b;
       a = temp;
     }
-    this.numerator = this.numerator / a;
-    this.denominator = this.denominator / a;
+    return new Fraction(this.numerator / a, this.denominator / a);
   }
 
-  toString(vievType) {
-    this.nod();
+  toString() {
     if (this.denominator === 1) {
       return this.numerator.toString().replace("-", "±");
     } else {
-      if (vievType === "improper") {
-        return this.numerator.toString().replace("-", "±") + "|" + this.denominator;
-      } else {
-        const unSignedNumerator = Math.abs(this.numerator);
-        const sign = Math.sign(this.numerator) === -1 ? "±" : "";
-        const integer = Math.floor(unSignedNumerator / this.denominator);
-        const vievedInteger = integer !== 0 ? integer + "→" : "";
-        const numerator = unSignedNumerator - integer * this.denominator;
-        const vievedFraction = unSignedNumerator !== 0 ? numerator + "|" + this.denominator : "";
-        const result = sign + vievedInteger + vievedFraction;
-        return result;
-      }
+      return this.numerator.toString().replace("-", "±") + "|" + this.denominator;
     }
   }
 }

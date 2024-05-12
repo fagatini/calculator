@@ -3,11 +3,9 @@ import Keyboard from "./src/Keyboard/Keyboard";
 import { Input } from "./src/Input/Input";
 import { stringToData } from "./src/utils/stringToData";
 import { regexps } from "./src/shared/regexps";
-import { Button } from "react-native";
 
 export default function App() {
   const [str, setStr] = useState("");
-  const [vievType, setVievType] = useState("improper");
 
   function keyManager(key) {
     switch (key) {
@@ -34,28 +32,27 @@ export default function App() {
 
     switch (operation) {
       case "+":
-        setStr(first.sum(second).toString(vievType));
+        setStr(first.sum(second).toString());
         break;
       case "-":
-        setStr(first.sub(second).toString(vievType));
+        setStr(first.sub(second).toString());
         break;
       case "*":
-        setStr(first.mult(second).toString(vievType));
+        setStr(first.mult(second).toString());
         break;
       case "/":
-        setStr(first.div(second).toString(vievType));
+        setStr(first.div(second).toString());
+        break;
+      case "^":
+        setStr(first.pow(second).toString());
         break;
     }
-  }
-
-  function changeVievOfFraction() {
-    setVievType(vievType === "improper" ? "mixed" : "improper");
   }
 
   return (
     <main
       style={{
-        backgroundColor: "#fdfcdc",
+        backgroundColor: "#10451d",
         width: "100%",
         height: "100%",
         display: "flex",
@@ -65,10 +62,7 @@ export default function App() {
       }}
     >
       <div>
-        <Input value={str} vievType={vievType} />
-        <div style={{ width: "20%", position: "absolute", zIndex: 2, right: "6%", top: "25%" }}>
-          <Button title={vievType} onPress={() => changeVievOfFraction()} color={"gray"}></Button>
-        </div>
+        <Input value={str} />
       </div>
       <Keyboard onKeyPress={(key) => keyManager(key)} />
     </main>
