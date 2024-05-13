@@ -66,7 +66,7 @@ export default function App() {
     >
       <div>
         <Input value={str} vievType={vievType} />
-        <div style={{ width: "20%", position: "absolute", zIndex: 2, right: "6%", top: "25%" }}>
+        <div style={{ width: "22%", position: "absolute", zIndex: 2, right: "8%", top: "25%" }}>
           <Button title={vievType} onPress={() => changeVievOfFraction()} color={"gray"}></Button>
         </div>
       </div>
