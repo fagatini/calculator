@@ -1,30 +1,42 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, StyleSheet, Text, TouchableOpacity } from "react-native";
+
+const CustomButton = ({ title, onPress, color }) => {
+  return (
+    <TouchableOpacity style={{ ...styles.button, backgroundColor: color }} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const Keyboard = ({ onKeyPress }) => {
   const buttons = [
-    ["C", "c1", "→", "÷"],
-    ["7", "8", "9", "*"],
-    ["4", "5", "6", "-"],
-    ["1", "2", "3", "+"],
-    ["=", "0", "±", "/"],
+    ["C", "C1", "CC"],
+    ["→", "±", "="],
+    ["7", "8", "9"],
+    ["4", "5", "6"],
+    ["1", "2", "3"],
+    ["*", "0", "^"],
+    ["/", "+", "-"],
   ];
 
   function getColorForButton(key) {
     switch (key) {
       case "C":
-      case "c1":
+      case "C1":
+      case "CC":
         return "#f07167";
-      case "=":
       case "+":
       case "-":
       case "*":
       case "/":
-      case "÷":
+      case "^":
       case "()":
+        return "#1a7431";
       case "±":
       case "→":
-        return "#1a7431";
+      case "=":
+        return "#40916c";
       default:
         return "#4ad66d";
     }
@@ -35,7 +47,7 @@ const Keyboard = ({ onKeyPress }) => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 13 }}>
       {buttons.map((row, index) => {
         return (
           <div
@@ -47,9 +59,13 @@ const Keyboard = ({ onKeyPress }) => {
             key={index}
           >
             {row.map((button) => (
-              <div style={{ width: "20%" }} key={button}>
-                <Button title={button} color={getColorForButton(button)} onPress={() => handlePress(button)}></Button>
-              </div>
+              <CustomButton
+                title={button}
+                key={button}
+                color={getColorForButton(button)}
+                onPress={() => handlePress(button)}
+                style={styles.button}
+              ></CustomButton>
             ))}
           </div>
         );
@@ -59,3 +75,18 @@ const Keyboard = ({ onKeyPress }) => {
 };
 
 export default Keyboard;
+
+const styles = StyleSheet.create({
+  button: {
+    width: "25%",
+    padding: 10,
+    borderRadius: 5,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+});

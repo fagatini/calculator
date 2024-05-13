@@ -12,8 +12,11 @@ export default function App() {
       case "C":
         setStr("");
         break;
-      case "c1":
+      case "C1":
         setStr(str.slice(0, -1));
+        break;
+      case "CC":
+        setStr(str.split(regexps.operations).length === 2 ? str.split(regexps.operations)[0] : "");
         break;
       case "=":
         handleEqual(str);
@@ -28,6 +31,11 @@ export default function App() {
 
   function handleEqual(string) {
     const [first, second] = stringToData(string);
+    if (!second) {
+      setStr(first.nod().toString());
+      return;
+    }
+
     const operation = string.match(regexps.operations)[0];
 
     switch (operation) {
@@ -58,7 +66,7 @@ export default function App() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center ",
-        gap: 40,
+        gap: 50,
       }}
     >
       <div>

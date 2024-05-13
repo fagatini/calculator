@@ -47,7 +47,8 @@ export class Fraction {
 
   pow(integer) {
     const newNumerator = Math.abs(this.numerator) ** integer;
-    this.numerator = newNumerator * (-1) ** integer;
+    this.numerator = newNumerator * Math.sign(this.numerator) ** integer;
+    this.denominator = this.denominator ** integer;
     return this.nod();
   }
 
@@ -59,14 +60,14 @@ export class Fraction {
       b = a % b;
       a = temp;
     }
-    return new Fraction(this.numerator / a, this.denominator / a);
+    return new Fraction({ numerator: this.numerator / a, denominator: this.denominator / a });
   }
 
   toString() {
     if (this.denominator === 1) {
       return this.numerator.toString().replace("-", "±");
     } else {
-      return this.numerator.toString().replace("-", "±") + "|" + this.denominator;
+      return this.numerator.toString().replace("-", "±") + "→" + this.denominator;
     }
   }
 }

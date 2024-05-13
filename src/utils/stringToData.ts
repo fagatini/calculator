@@ -2,31 +2,36 @@ import { Fraction } from "../classes/fraction";
 import { regexps } from "../shared/regexps";
 
 export const stringToData = (input: string) => {
-  const [first, second] = input.split(regexps.operations, 2);
+  const [first, second] = input.split(regexps.operations);
   const a = [
     new Fraction(stringToFraction(first)),
-    new Fraction(stringToFraction(second)),
+    second === undefined ? undefined : new Fraction(stringToFraction(second)),
   ]
   return a;
 };
 
-const stringToFraction = (value: string) => {
+export const stringToFraction = (value: string) => {
   const result: any = {sign: value.includes("±") ? -1 : 1};
   value = value.replaceAll("±", "");
 
-  if (!value.includes("→") && !value.includes("|")) {
-    result.integer = value;
-  } else {
-    if (value.includes("→")) {
-      result.integer = value.slice(0, value.indexOf("→"));
-    }
-    if (value.includes("|")) {
-      const start = value.includes("→") ? value.indexOf("→") + 1 : 0;
+  const splitedValue = value.split('→')
 
-      [result.numerator, result.denominator] = value
-        .slice(start, value.length)
-        .split("|");
-    }
+  switch (splitedValue.length) {
+    case 0: 
+      break;
+    case 1:
+      result.integer = splitedValue[0]
+      break;
+    case 2:
+      result.numerator = splitedValue[0]
+      result.denominator = splitedValue[1]
+      break;
+    case 3: default:
+      result.integer = splitedValue[0]
+      result.numerator = splitedValue[1]
+      result.denominator = splitedValue[2]
+      break;
   }
+  
   return result;
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { regexps } from "../shared/regexps";
+import { stringToFraction } from "../utils/stringToData";
 
 export const Input = ({ value: fractionText }) => {
   function parseValue(text) {
@@ -16,28 +17,11 @@ export const Input = ({ value: fractionText }) => {
   }
 
   function parseFraction(fractionText) {
-    const fraction = { sign: fractionText.startsWith("±") ? "±" : "" };
-    fractionText = fractionText.replaceAll("±", "");
-
-    if (!fractionText.includes("→") && !fractionText.includes("|")) {
-      fraction.integer = fractionText;
-    } else if (fractionText.includes("→")) {
-      fraction.integer = fractionText.slice(0, fractionText.indexOf("→"));
-      if (fractionText.includes("|")) {
-        fraction.numerator = fractionText.slice(fractionText.indexOf("→") + 1, fractionText.indexOf("|"));
-        fraction.denominator = fractionText.slice(fractionText.indexOf("|") + 1, fractionText.lenght);
-      } else {
-        fraction.numerator = fractionText.slice(fractionText.indexOf("→") + 1, fractionText.lenght);
-        fraction.denominator = "";
-      }
-    } else if (fractionText.includes("|")) {
-      fraction.numerator = fractionText.slice(0, fractionText.indexOf("|"));
-      fraction.denominator = fractionText.slice(fractionText.indexOf("|") + 1, fractionText.lenght);
-    }
+    const fraction = stringToFraction(fractionText);
 
     return (
       <>
-        {fraction.sign === "±" ? <p style={styles.negative}>—</p> : null}
+        {fraction.sign === -1 ? <p style={styles.negative}>—</p> : null}
         <div style={styles.integer}>
           <p style={styles.pStyle}>{fraction.integer}</p>
         </div>
@@ -58,42 +42,46 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    height: 70,
-    width: "92%",
+    height: 90,
+    width: "88%",
     backgroundColor: "#4ad66d",
     borderRadius: 15,
-    marginLeft: "4%",
+    marginLeft: "6%",
     paddingLeft: 15,
     paddingRight: 15,
     boxSizing: "border-box",
     overflow: "scroll",
-    borderColor: "black",
+    borderColor: "white",
     borderWidth: 2,
   },
   pStyle: {
     textAlign: "center",
+    fontSize: 30,
     marginTop: 0,
     marginBottom: 0,
   },
   integer: {
-    marginRight: 5,
+    marginRight: 4,
   },
   fractionContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    marginRight: 5,
+    marginRight: 7,
+    marginTop: 4,
   },
   separator: {
     backgroundColor: "black",
-    height: 2,
+    height: 5,
     width: "100%",
   },
   operation: {
-    marginRight: 5,
+    fontSize: 30,
+    marginRight: 7,
   },
   negative: {
-    marginLeft: 5,
-    marginRight: 2,
+    fontSize: 30,
+    marginLeft: 7,
+    marginRight: 5,
   },
 });
