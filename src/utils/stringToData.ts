@@ -26,7 +26,7 @@ export const stringToFraction = (value: string) => {
       result.numerator = splitedValue[0]
       result.denominator = splitedValue[1]
       break;
-    case 3: default:
+    case 3:
       result.integer = splitedValue[0]
       result.numerator = splitedValue[1]
       result.denominator = splitedValue[2]
