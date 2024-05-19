@@ -14,24 +14,19 @@ export const stringToFraction = (value: string) => {
   const result: any = {sign: value.includes("±") ? -1 : 1};
   value = value.replaceAll("±", "");
 
-  const splitedValue = value.split('→')
-
-  switch (splitedValue.length) {
-    case 0: 
-      break;
-    case 1:
-      result.integer = splitedValue[0]
-      break;
-    case 2:
-      result.numerator = splitedValue[0]
-      result.denominator = splitedValue[1]
-      break;
-    case 3:
-      result.integer = splitedValue[0]
-      result.numerator = splitedValue[1]
-      result.denominator = splitedValue[2]
-      break;
-  }
+  const splitByArrow = value.split('→')
+  let fractionSide = splitByArrow[0]
   
+  if (splitByArrow.length === 2 || !value.includes('→') && !value.includes('÷')) {
+    result.integer = splitByArrow[0]
+    fractionSide = splitByArrow[1]
+  } 
+
+  if (fractionSide && fractionSide.length) {
+    const splitByDiv = fractionSide.split('÷')
+    result.numerator = splitByDiv[0]
+    result.denominator = splitByDiv[1]
+  }
+
   return result;
 };

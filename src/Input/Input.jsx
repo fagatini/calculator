@@ -18,7 +18,6 @@ export const Input = ({ value: fractionText }) => {
 
   function parseFraction(fractionText) {
     const fraction = stringToFraction(fractionText);
-
     return (
       <>
         {fraction.sign === -1 ? <p style={styles.negative}>—</p> : null}
@@ -67,16 +66,17 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    marginRight: 7,
+    marginRight: 10,
     marginTop: 4,
   },
   separator: {
     backgroundColor: "black",
-    height: 5,
+    height: 3,
     width: "100%",
   },
   operation: {
-    fontSize: 30,
+    fontSize: 40,
+    marginTop: 14,
     marginRight: 7,
   },
   negative: {

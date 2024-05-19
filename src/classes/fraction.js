@@ -18,7 +18,7 @@ export class Fraction {
     const newDenominator = fraction.denominator * this.denominator;
     this.numerator = newNumerator;
     this.denominator = newDenominator;
-    return this.nod();
+    return this.toString();
   }
 
   sub(fraction) {
@@ -26,7 +26,7 @@ export class Fraction {
     const newDenominator = fraction.denominator * this.denominator;
     this.numerator = newNumerator;
     this.denominator = newDenominator;
-    return this.nod();
+    return this.toString();
   }
 
   mult(fraction) {
@@ -34,7 +34,7 @@ export class Fraction {
     const newDenominator = fraction.denominator * this.denominator;
     this.numerator = newNumerator;
     this.denominator = newDenominator;
-    return this.nod();
+    return this.toString();
   }
 
   div(fraction) {
@@ -42,14 +42,14 @@ export class Fraction {
     const newDenominator = Math.abs(this.denominator * fraction.numerator);
     this.numerator = newNumerator * Math.sign(this.numerator) * Math.sign(fraction.numerator);
     this.denominator = newDenominator;
-    return this.nod();
+    return this.toString();
   }
 
   pow(integer) {
     const newNumerator = Math.abs(this.numerator) ** integer;
     this.numerator = newNumerator * Math.sign(this.numerator) ** integer;
     this.denominator = this.denominator ** integer;
-    return this.nod();
+    return this.toString();
   }
 
   nod() {
@@ -60,14 +60,33 @@ export class Fraction {
       b = a % b;
       a = temp;
     }
-    return new Fraction({ numerator: this.numerator / a, denominator: this.denominator / a });
+
+    this.numerator = this.numerator / a;
+    this.denominator = this.denominator / a;
   }
 
-  toString() {
+  toString(vievType = "to mixed") {
+    if (this.denominator == 0) {
+      return "error";
+    }
+
+    this.nod();
+
     if (this.denominator === 1) {
       return this.numerator.toString().replace("-", "±");
     } else {
-      return this.numerator.toString().replace("-", "±") + "→" + this.denominator;
+      if (vievType === "to mixed") {
+        return this.numerator.toString().replace("-", "±") + "÷" + this.denominator;
+      } else {
+        const unsignedNumenator = Math.abs(this.numerator);
+        const integer = Math.floor(unsignedNumenator / this.denominator);
+        const newNumerator = unsignedNumenator % this.denominator;
+        return (
+          (Math.sign(this.numerator) === -1 ? "±" : "") +
+          (integer !== 0 ? integer + "→" : "") +
+          (newNumerator !== 0 ? newNumerator + "÷" + this.denominator : "")
+        );
+      }
     }
   }
 }

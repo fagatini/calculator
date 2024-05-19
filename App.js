@@ -13,55 +13,103 @@ export default function App() {
         setStr("");
         break;
       case "C1":
-        setStr(str.slice(0, -1));
+        if (str.includes("error")) {
+          setStr("");
+        } else {
+          setStr(str.slice(0, -1));
+        }
         break;
       case "CC":
-        setStr(str.split(regexps.operations).length === 2 ? str.split(regexps.operations)[0] : "");
+        if (str.includes("error")) {
+          setStr("");
+        } else {
+          setStr(str.split(regexps.operations).length === 2 ? str.split(regexps.operations)[0] : "");
+        }
         break;
       case "=":
-        handleEqual(str);
+        if (str.includes("error")) {
+          setStr("error");
+        } else {
+          handleEqual(str);
+        }
         break;
       case "±":
-        setStr(str.endsWith("±") ? str.slice(0, -1) : str + "±");
+        if (str.includes("error")) {
+          setStr("error");
+        } else {
+          const splitByOperation = str.split(regexps.operations);
+          const operation = str.match(regexps.operations);
+          if (splitByOperation.length === 1) {
+            setStr(str.includes("±") ? str.replace("±", "") : "±" + str);
+          } else {
+            setStr(
+              splitByOperation[0] +
+                operation +
+                (splitByOperation[1].includes("±") ? splitByOperation[1].replace("±", "") : "±" + splitByOperation[1])
+            );
+          }
+        }
+        break;
+      case "to wrong":
+      case "to mixed":
+        if (str.includes("error")) {
+          setStr("error");
+        } else {
+          const [first, second] = stringToData(str);
+          const operation2 = str.match(regexps.operations);
+          setStr(first.toString(key) + (operation2 ? operation2 : "") + (second ? second.toString(key) : ""));
+          break;
+        }
+      case "÷":
+      case "→":
+        if (str.includes("error")) {
+          setStr("error");
+        } else {
+          const splitByOperation1 = str.split(regexps.operations);
+          const operation1 = str.match(regexps.operations);
+          if (splitByOperation1.length === 1) {
+            setStr(str.includes(key) ? str : str + key);
+          } else {
+            setStr(
+              splitByOperation1[0] +
+                operation1 +
+                (splitByOperation1[1].includes(key) ? splitByOperation1[1] : splitByOperation1[1] + key)
+            );
+          }
+        }
         break;
       default:
-        setStr(str + key);
+        if (str.includes("error")) {
+          setStr("error");
+        } else {
+          setStr(str + key);
+        }
     }
   }
 
   function handleEqual(string) {
-    if (string.includes("error")) {
-      setStr("error");
-      return;
-    }
-
     const [first, second] = stringToData(string);
-    if (!second) {
-      setStr(first.nod().toString());
-      return;
-    }
-
     const operation = string.match(regexps.operations)[0];
 
     switch (operation) {
       case "+":
-        setStr(first.sum(second).toString());
+        setStr(first.sum(second));
         break;
       case "-":
-        setStr(first.sub(second).toString());
+        setStr(first.sub(second));
         break;
       case "*":
-        setStr(first.mult(second).toString());
+        setStr(first.mult(second));
         break;
       case "/":
         if (second.toString() == 0) {
           setStr("error");
         } else {
-          setStr(first.div(second).toString());
+          setStr(first.div(second));
         }
         break;
       case "^":
-        setStr(first.pow(second).toString());
+        setStr(first.pow(second));
         break;
     }
   }
