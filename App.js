@@ -30,6 +30,11 @@ export default function App() {
   }
 
   function handleEqual(string) {
+    if (string.includes("error")) {
+      setStr("error");
+      return;
+    }
+
     const [first, second] = stringToData(string);
     if (!second) {
       setStr(first.nod().toString());
@@ -49,7 +54,11 @@ export default function App() {
         setStr(first.mult(second).toString());
         break;
       case "/":
-        setStr(first.div(second).toString());
+        if (second.toString() == 0) {
+          setStr("error");
+        } else {
+          setStr(first.div(second).toString());
+        }
         break;
       case "^":
         setStr(first.pow(second).toString());
